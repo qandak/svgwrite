@@ -66,7 +66,7 @@ class Drawing(SVG, ElementFactory):
         version = self.version
         self.attribs['xmlns'] = "http://www.w3.org/2000/svg"
         self.attribs['xmlns:xlink'] = "http://www.w3.org/1999/xlink"
-        self.attribs['xmlns:ev'] = "http://www.w3.org/2001/xml-events"
+        # self.attribs['xmlns:ev'] = "http://www.w3.org/2001/xml-events"
 
         self.attribs['baseProfile'] = profile
         self.attribs['version'] = version
@@ -83,11 +83,12 @@ class Drawing(SVG, ElementFactory):
         """
         self._stylesheets.append((href, title, alternate, media))
 
-    def write(self, fileobj, pretty=False, indent=2):
+    def write(self, fileobj, pretty=False, xml_header=True, indent=2):
         """ Write XML string to `fileobj`.
 
         :param fileobj: a file-like object
         :param pretty: True for easy readable output
+        :param xml_header: include '<?xml...' declaration if True
         :param indent: how much to indent if pretty is enabled, by default 2 spaces
 
         Python 3.x - set encoding at the open command::
@@ -95,7 +96,8 @@ class Drawing(SVG, ElementFactory):
             open('filename', 'w', encoding='utf-8')
         """
         # write xml header
-        fileobj.write('<?xml version="1.0" encoding="utf-8" ?>\n')
+        if xml_header:
+            fileobj.write('<?xml version="1.0" encoding="utf-8" ?>\n')
 
         # don't use DOCTYPE. It's useless. see also:
         # http://tech.groups.yahoo.com/group/svg-developers/message/48562
