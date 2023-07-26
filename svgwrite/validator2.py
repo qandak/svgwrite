@@ -13,6 +13,9 @@ from svgwrite.data import pattern
 
 validator_cache = {}
 
+# 'data-*' attributes are valid for SVG documents regarding MDN Web Docs
+custom_attr_name_pattern = re.compile("^data-(?!xml)[^\\sA-Z;<>]+$")
+
 
 def cache_key(profile, debug):
     return str(profile) + str(debug)
@@ -69,6 +72,9 @@ class Tiny12Validator(object):
 
         Raises TypeError.
         """
+        if custom_attr_name_pattern.match(attributename):
+            return
+
         attribute = self.attributes[attributename]
         # check if 'value' match a valid datatype
         for typename in attribute.get_types(elementname):
@@ -117,7 +123,7 @@ class Tiny12Validator(object):
         'elementname'.
         """
         element = self._get_element(elementname)
-        return attributename in element.valid_attributes or re.match("^data-(?!xml)[^\\sA-Z;<>]+$", attributename)
+        return attributename in element.valid_attributes or custom_attr_name_pattern.match(attributename)
 
     def is_valid_children(self, elementname, childrenname):
         """ True if svg-element 'childrenname' is a valid children of
