@@ -5,6 +5,7 @@
 # Created: 01.10.2010
 # Copyright (C) 2010, Manfred Moitzi
 # License: MIT License
+import re
 
 from svgwrite.data import full11
 from svgwrite.data import tiny12
@@ -116,7 +117,7 @@ class Tiny12Validator(object):
         'elementname'.
         """
         element = self._get_element(elementname)
-        return attributename in element.valid_attributes
+        return attributename in element.valid_attributes or re.match("^data-(?!xml)[^\\sA-Z;<>]+$", attributename)
 
     def is_valid_children(self, elementname, childrenname):
         """ True if svg-element 'childrenname' is a valid children of
