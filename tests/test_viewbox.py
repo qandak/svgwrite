@@ -25,7 +25,7 @@ class TestViewBox(unittest.TestCase):
     def test_viewbox(self):
         m = Mock()
         m.viewbox(minx=1, miny=2, width=10, height=20)
-        self.assertEqual(m.tostring(), '<svg viewBox="1,2,10,20" />')
+        self.assertEqual(m.tostring(), '<svg viewBox="1 2 10 20" />')
 
     def test_viewbox_err(self):
         m = Mock()

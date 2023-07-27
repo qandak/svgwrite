@@ -34,7 +34,7 @@ class ViewBox(object):
         :param number height: height of the viewBox
 
         """
-        self['viewBox'] = strlist( [minx, miny, width, height] )
+        self['viewBox'] = strlist([minx, miny, width, height], " ")
 
     def stretch(self):
         """ Stretch viewBox in x and y direction to fill viewport, does not
